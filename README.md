@@ -1,34 +1,34 @@
-# Tâche 2 – Prédiction du type de contenu Netflix (Film ou Série TV)
+# Task 2 – Netflix Content Type Prediction (Movie or TV Show)
 
-Classification binaire : prédire si un titre est un **Film** (Movie) ou une **Série TV** (TV Show).
+Binary classification: predict whether a title is a **Movie** or a **TV Show**.
 
-## Méthode
-1. Sélection des caractéristiques (année de sortie, date d'ajout, classification, pays, réalisateur connu, nombre de genres, genres)
-2. Encodage : One-Hot (classification, pays), standardisation (variables numériques), multi-hot (genres), le tout dans un Pipeline scikit-learn
-3. Entraînement : Régression logistique, Arbre de décision, Random Forest, Gradient Boosting
-4. Évaluation : accuracy, precision, recall, F1, AUC, validation croisée à 5 plis, matrice de confusion
-5. Comparaison des modèles
+## Method
+1. Feature selection (release year, date added, rating, country, director known, number of genres, genres)
+2. Encoding: One-Hot (rating, country), standardization (numeric variables), multi-hot (genres), all inside a scikit-learn Pipeline
+3. Training: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting
+4. Evaluation: accuracy, precision, recall, F1, AUC, 5-fold cross-validation, confusion matrix
+5. Model comparison
 
-## Point clé : fuite de données (data leakage)
-Les colonnes `duration` (« 90 min » / « 2 Seasons ») et `listed_in` (« Dramas » / « TV Dramas ») révèlent directement la réponse. Elles donnent ~100 % sans rien apprendre. Le notebook le démontre, puis retient un jeu de caractéristiques sans la durée et avec uniquement les genres communs aux films et aux séries.
+## Key point: data leakage
+The `duration` ("90 min" / "2 Seasons") and `listed_in` ("Dramas" / "TV Dramas") columns directly reveal the answer. They give ~100% accuracy without learning anything. The notebook demonstrates this, then keeps a feature set with no duration and only the genres shared by movies and TV shows.
 
-| Jeu de caractéristiques | Accuracy (CV) |
+| Feature set | Accuracy (CV) |
 |---|---|
-| A. Durée + genres bruts | 1.000 |
-| B. Sans durée, genres bruts | 0.9997 |
-| C. Genres normalisés | 0.987 |
-| **D. Genres communs (retenu)** | **0.952** |
-| Baseline (toujours « Movie ») | 0.697 |
+| A. Duration + raw genres | 1.000 |
+| B. No duration, raw genres | 0.9997 |
+| C. Normalized genres | 0.987 |
+| **D. Shared genres (selected)** | **0.952** |
+| Baseline (always "Movie") | 0.697 |
 
-## Résultats (jeu D, 20 % de test)
-| Modèle | Accuracy | F1 | AUC |
+## Results (set D, 20% test split)
+| Model | Accuracy | F1 | AUC |
 |---|---|---|---|
-| Régression logistique | 0.948 | 0.913 | 0.973 |
-| Arbre de décision | 0.948 | 0.913 | 0.947 |
+| Logistic Regression | 0.948 | 0.913 | 0.973 |
+| Decision Tree | 0.948 | 0.913 | 0.947 |
 | Random Forest | 0.952 | 0.919 | 0.978 |
 | Gradient Boosting | 0.955 | 0.925 | 0.980 |
 
-## Lancer le projet
+## Run the project
 ```bash
 pip install -r requirements.txt
 jupyter notebook task2_content_type_prediction_EN.ipynb
